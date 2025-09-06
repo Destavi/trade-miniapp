@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Mini App</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div class="container">
+  <h2>📊 Плановый сигнал</h2>
+
+  <div class="signal">
+    <p>Пара: <span id="pair">BTC/USDT</span></p>
+    <p>Сделка: <span id="direction">LONG 📈</span></p>
+    <p>Через: <span id="entryTime">10</span> минут</p>
+    <p>Длительность: <span id="duration">3</span> минуты</p>
+    <p>Прогнозируемое изменение: <span id="percent">5</span>%</p>
+  </div>
+
+  <h3>💵 Калькулятор прибыли</h3>
+  <label>Сумма ($ или ₴):</label>
+  <input type="number" id="amount" placeholder="Введи сумму">
+
+  <label>Валюта:</label>
+  <select id="currency">
+    <option value="usd">$ USD</option>
+    <option value="uah">₴ UAH</option>
+  </select>
+
+  <label>Плечо (×):</label>
+  <input type="number" id="leverage" value="1" min="1" max="100">
+
+  <button onclick="calculate()">Рассчитать прибыль</button>
+
+  <div id="result"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
