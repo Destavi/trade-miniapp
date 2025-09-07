@@ -1,41 +1,29 @@
-const usdToUah = 41; // Курс USD → UAH (можно обновлять через API)
+function generateSignal() {
+  const pairs = [
+    "BTC/USDT", "ETH/USDT", "SOL/USDT", "XRP/USDT",
+    "EUR/USD", "GBP/USD", "AUD/CAD", "EUR/JPY", "USD/JPY"
+  ];
 
-function calculate() {
-  const amountInput = parseFloat(document.getElementById("amount").value);
-  const leverage = parseInt(document.getElementById("leverage").value);
-  const direction = document.getElementById("direction").textContent.includes("LONG") ? "long" : "short";
-  const percent = parseFloat(document.getElementById("percent").textContent);
-  const currency = document.getElementById("currency").value;
+  const directions = ["LONG 📈", "SHORT 📉"];
+  const entryTimes = [1, 3, 5, 10, 15];
+  const durations = [1, 3, 5, 10];
+  const percents = [0.5, 1, 2, 3, 5];
 
-  if (!amountInput || amountInput <= 0) {
-    document.getElementById("result").innerHTML = "Введите корректную сумму!";
-    return;
-  }
+  const pair = pairs[Math.floor(Math.random() * pairs.length)];
+  const direction = directions[Math.floor(Math.random() * directions.length)];
+  const entryTime = entryTimes[Math.floor(Math.random() * entryTimes.length)];
+  const duration = durations[Math.floor(Math.random() * durations.length)];
+  const percent = percents[Math.floor(Math.random() * percents.length)];
 
-  // Конвертация в USD для расчета
-  let amount = amountInput;
-  if (currency === "uah") amount = amountInput / usdToUah;
-
-  let profit = amount * percent / 100 * leverage;
-  if (direction === "short") profit = profit; // прибыль считается на падении для шорта
-
-  let displayProfit = currency === "usd" ? profit.toFixed(2) + " $" : (profit * usdToUah).toFixed(2) + " ₴";
-
-  document.getElementById("result").innerHTML =
-    `<p>💰 Прибыль при выбранном сигнале: ${displayProfit}</p>
-     <p>Пример при 0.5%: ${(amount*0.005*leverage).toFixed(2)} $</p>
-     <p>Пример при 1%: ${(amount*0.01*leverage).toFixed(2)} $</p>
-     <p>Пример при 2%: ${(amount*0.02*leverage).toFixed(2)} $</p>`;
-}
-
-// Функция для обновления сигнала (в будущем можно вызывать с сервера)
-function updateSignal(pair, direction, entryTime, duration, percent) {
   document.getElementById("pair").textContent = pair;
-  document.getElementById("direction").textContent = direction === "long" ? "LONG 📈" : "SHORT 📉";
+  document.getElementById("direction").textContent = direction;
   document.getElementById("entryTime").textContent = entryTime;
   document.getElementById("duration").textContent = duration;
   document.getElementById("percent").textContent = percent;
 }
 
-// Пример автозаполнения сигнала
-updateSignal("BTC/USDT", "long", 10, 3, 5);
+// Генерация первого сигнала при загрузке
+generateSignal();
+
+// Автогенерация каждые 30 секунд
+setInterval(generateSignal, 30000);
