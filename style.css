@@ -1,62 +1,45 @@
 body {
   font-family: Arial, sans-serif;
-  background: #0d0d0d;
-  color: #fff;
+  background: #0d1117;
+  color: #e6edf3;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
-.container {
-  width: 90%;
-  max-width: 400px;
-  background: #1c1c1c;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 255, 200, 0.5);
-}
-
-h2, h3 {
+header {
+  background: #161b22;
+  padding: 1em;
   text-align: center;
-  color: #00ffc8;
 }
 
-label {
-  display: block;
-  margin: 10px 0 5px;
+h1, h2 {
+  color: #58a6ff;
 }
 
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-}
-
-input, select {
-  background: #2a2a2a;
-  color: #fff;
+.signal, #calc-result, #admin-result, #admin-stats {
+  background: #161b22;
+  border: 1px solid #30363d;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 6px;
 }
 
 button {
-  background: #00ffc8;
-  color: #000;
-  font-weight: bold;
+  background: #238636;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-#result {
-  text-align: center;
-  font-size: 18px;
-  margin-top: 15px;
+button:hover {
+  background: #2ea043;
 }
 
-.signal p {
-  margin: 5px 0;
-  font-size: 16px;
+footer {
+  text-align: center;
+  padding: 1em;
+  background: #161b22;
+  color: #8b949e;
 }
