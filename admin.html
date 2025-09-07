@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>🛠 Админка</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>🛠 Панель администратора</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Создать сигнал</h2>
+      <form id="signal-form">
+        <label>Пара: <input name="pair" value="BTC/USDT"></label><br>
+        <label>Сделка: 
+          <select name="direction">
+            <option value="LONG">LONG 📈</option>
+            <option value="SHORT">SHORT 📉</option>
+          </select>
+        </label><br>
+        <label>Через (минут): <input name="entryTime" type="number" value="10"></label><br>
+        <label>Длительность (минут): <input name="duration" type="number" value="3"></label><br>
+        <label>Прогноз %: <input name="percent" type="number" value="5"></label><br>
+        <button type="submit">Создать</button>
+      </form>
+      <div id="admin-result"></div>
+    </section>
+
+    <section>
+      <h2>📊 Статистика</h2>
+      <div id="admin-stats"></div>
+    </section>
+  </main>
+</body>
+</html>
