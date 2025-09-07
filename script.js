@@ -1,9 +1,12 @@
-const API_BASE = ""; // "" = тот же домен
+const API_BASE = "http://localhost:5000"; // сюда ставь URL backend, например http://localhost:5000
 
-// Загружаем последний сигнал
 async function loadLatestSignal() {
   const res = await fetch(`${API_BASE}/api/signals/latest`);
   const data = await res.json();
+  if(data.error){
+    document.getElementById("latest-signal").innerHTML = "Сигналов пока нет";
+    return;
+  }
   document.getElementById("latest-signal").innerHTML = `
     <p>Пара: ${data.pair}</p>
     <p>Сделка: ${data.direction}</p>
@@ -13,7 +16,6 @@ async function loadLatestSignal() {
   `;
 }
 
-// Загружаем историю
 async function loadHistory() {
   const res = await fetch(`${API_BASE}/api/signals/history?limit=5`);
   const data = await res.json();
@@ -30,86 +32,32 @@ async function loadHistory() {
   renderChart(labels, values);
 }
 
-// График
-function renderChart(labels, values) {
+function renderChart(labels, values){
   new Chart(document.getElementById("historyChart"), {
     type: "line",
-    data: {
-      labels,
-      datasets: [{
-        label: "Проценты",
-        data: values,
-        borderColor: "#58a6ff",
-        fill: false
-      }]
-    }
+    data: {labels, datasets:[{label:"Проценты", data:values, borderColor:"#58a6ff", fill:false}]}
   });
 }
 
-// Статистика
-async function loadStats() {
-  const res = await fetch(`${API_BASE}/api/stats`);
+async function generateSignal(pair="BTC_USDT"){
+  const res = await fetch(`${API_BASE}/api/signals/generate`, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({pair})
+  });
   const data = await res.json();
-  document.getElementById("stats").innerHTML =
-    `👥 Всего: ${data.total_users} | 🔥 Активные: ${data.active_today} | 🔔 Подписаны: ${data.subscribed}`;
+  loadLatestSignal();
+  loadHistory();
+  return data;
 }
 
-// Калькулятор
-function calculate() {
+function calculate(){
   const amount = parseFloat(document.getElementById("amount").value);
-  const res = [0.5, 1, 2].map(p => `${p}% → ${(amount * p / 100).toFixed(2)}$`);
+  const res = [0.5,1,2].map(p => `${p}% → ${(amount*p/100).toFixed(2)}$`);
   document.getElementById("calc-result").innerHTML = res.join("<br>");
 }
 
-// Подписка
-async function subscribe() {
-  const tg = window.Telegram?.WebApp;
-  if (!tg) {
-    alert("Откройте через Telegram Mini App");
-    return;
-  }
-  const user = tg.initDataUnsafe.user;
-  await fetch(`${API_BASE}/api/subscribe`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({id: user.id, subscribe: true})
-  });
-  alert("Подписка оформлена ✅");
-}
-
-// Сохраняем пользователя при входе
-async function saveUser() {
-  const tg = window.Telegram?.WebApp;
-  if (!tg) return;
-  const user = tg.initDataUnsafe.user;
-  await fetch(`${API_BASE}/api/saveUser`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(user)
-  });
-}
-
-// Админка — создание сигнала
-const form = document.getElementById("signal-form");
-if (form) {
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
-    const res = await fetch(`${API_BASE}/api/admin/add_signal`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({...data, admin_token: "supersecret"})
-    });
-    const out = await res.json();
-    document.getElementById("admin-result").textContent = JSON.stringify(out);
-    loadStats();
-  });
-}
-
-// Автозагрузка
-window.addEventListener("load", () => {
-  saveUser();
+window.addEventListener("load",()=>{
   loadLatestSignal();
   loadHistory();
-  loadStats();
 });
