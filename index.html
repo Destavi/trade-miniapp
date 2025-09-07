@@ -2,25 +2,44 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📊 Торговые сигналы</title>
+  <title>📊 Crypto Signals</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>📊 Плановый сигнал</h1>
+  <header>
+    <h1>📊 Crypto Signals</h1>
+    <div id="stats"></div>
+  </header>
 
-    <div class="signal">
-      <p>Пара: <span id="pair">---</span></p>
-      <p>Сделка: <span id="direction">---</span></p>
-      <p>Через: <span id="entryTime">---</span> минут</p>
-      <p>Длительность: <span id="duration">---</span> минут</p>
-      <p>Прогнозируемое изменение: <span id="percent">---</span>%</p>
-    </div>
+  <main>
+    <section>
+      <h2>🔥 Последний сигнал</h2>
+      <div id="latest-signal" class="signal">Загрузка...</div>
+    </section>
 
-    <button onclick="generateSignal()">🔄 Сгенерировать новый сигнал</button>
-  </div>
+    <section>
+      <h2>🕒 История (последние 5)</h2>
+      <ul id="history"></ul>
+      <canvas id="historyChart"></canvas>
+    </section>
 
-  <script src="script.js"></script>
+    <section>
+      <h2>💰 Калькулятор</h2>
+      <label>Сумма: <input type="number" id="amount" value="100"></label>
+      <button onclick="calculate()">Рассчитать</button>
+      <div id="calc-result"></div>
+    </section>
+
+    <section>
+      <h2>🔔 Уведомления</h2>
+      <button onclick="subscribe()">Подписаться</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 CryptoBot</p>
+  </footer>
 </body>
 </html>
